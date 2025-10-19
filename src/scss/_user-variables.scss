@@ -1,5 +1,88 @@
 //
 //
-// user-variables.scss
+// user-variables.scss - DualSparkStudio Theme
 //
 // Place your own variable overrides here, these will override any Bootstrap and theme variables.
+
+//*-----------------------------------------------
+//|   DualSparkStudio Color Palette
+//-----------------------------------------------*/
+
+// Primary Colors - Cyan/Turquoise
+$primary-cyan: hsl(174, 100%, 70%) !default; // #64ffda
+$primary-cyan-light: hsl(174, 100%, 80%) !default;
+$primary-cyan-dark: hsl(174, 100%, 39%) !default;
+
+// Accent Colors - Coral Pink
+$accent-pink: hsl(351, 100%, 65%) !default; // #ff4d5a
+$accent-pink-light: hsl(351, 100%, 75%) !default;
+$accent-pink-dark: hsl(351, 100%, 55%) !default;
+
+// Dark Theme Backgrounds
+$bg-dark-navy: hsl(222.2, 84%, 4.9%) !default; // #0B1221
+$bg-dark-slate: hsl(216, 34%, 17%) !default; // #1C2A3E
+$bg-gradient-dark: #020C1B !default;
+$bg-gradient-mid: #0A192F !default;
+$bg-gradient-light: #090E1A !default;
+
+// Text Colors
+$text-offwhite: hsl(210, 40%, 98%) !default; // #F8FAFC
+$text-muted-gray: hsl(215, 20.2%, 65.1%) !default;
+
+// Override Bootstrap/Theme Colors
+$blue: $primary-cyan !default;
+$pink: $accent-pink !default;
+$primary: $primary-cyan !default;
+$secondary: $bg-dark-slate !default;
+$dark: $bg-dark-navy !default;
+
+// Background and Body
+$body-bg: $bg-dark-navy !default;
+$body-color: $text-offwhite !default;
+
+// White and Grays - Adjusted for dark theme
+$white: $text-offwhite !default;
+$gray-900: $text-offwhite !default;
+$gray-800: hsl(215, 20.2%, 80%) !default;
+$gray-700: $text-muted-gray !default;
+$gray-600: hsl(215, 20.2%, 55%) !default;
+$gray-500: hsl(215, 20.2%, 45%) !default;
+$gray-400: hsl(216, 34%, 27%) !default;
+$gray-300: $bg-dark-slate !default;
+$gray-200: hsl(216, 34%, 12%) !default;
+$gray-100: $bg-dark-navy !default;
+
+// Headings
+$headings-color: $text-offwhite !default;
+$headings-font-weight: 700 !default;
+
+// Links
+$link-color: $primary-cyan !default;
+$link-hover-color: $primary-cyan-light !default;
+$link-decoration: none !default;
+
+// Navbar
+$navbar-dark-color: $text-offwhite !default;
+$navbar-dark-hover-color: $primary-cyan !default;
+$navbar-dark-active-color: $primary-cyan !default;
+
+// Borders
+$border-color: $bg-dark-slate !default;
+$border-radius: 0.5rem !default; // 8px
+$border-radius-sm: 0.25rem !default; // 4px
+$border-radius-lg: 0.75rem !default; // 12px
+
+// Cards
+$card-bg: $bg-dark-slate !default;
+$card-border-color: rgba($text-offwhite, 0.05) !default;
+$card-cap-bg: rgba($bg-dark-slate, 0.5) !default;
+
+// Buttons
+$btn-border-radius: $border-radius-sm !default;
+$btn-border-radius-lg: $border-radius !default;
+
+// Success, Warning, Danger (keeping functional colors visible)
+$success: hsl(142, 76%, 36%) !default;
+$warning: hsl(38, 92%, 50%) !default;
+$danger: hsl(0, 84.2%, 60.2%) !default;
+$info: $primary-cyan !default;
