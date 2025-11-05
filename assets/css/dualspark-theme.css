@@ -162,36 +162,10 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.05) !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  white-space: nowrap !important;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: var(--bg-dark-slate) var(--bg-dark-navy);
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-.navbar::-webkit-scrollbar {
-  height: 8px;
-}
-
-.navbar::-webkit-scrollbar-track {
-  background: var(--bg-dark-navy);
-  border-radius: 4px;
-}
-
-.navbar::-webkit-scrollbar-thumb {
-  background: var(--bg-dark-slate);
-  border-radius: 4px;
-}
-
-.navbar::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-cyan);
 }
 
 .navbar .navbar-nav {
   flex-wrap: nowrap !important;
-  white-space: nowrap !important;
 }
 
 .glass-effect {
@@ -331,17 +305,38 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  max-height: 400px;
+  overflow-y: auto;
 }
 
-.dropdown-item {
+.dropdown-item,
+.dropdown-menu .nav-link {
   color: var(--text-offwhite) !important;
   transition: all 0.3s ease;
+  padding: 0.5rem 1rem !important;
+  white-space: nowrap;
 }
 
 .dropdown-item:hover,
-.dropdown-item:focus {
+.dropdown-item:focus,
+.dropdown-menu .nav-link:hover,
+.dropdown-menu .nav-link:focus {
   background: rgba(100, 255, 218, 0.1) !important;
   color: var(--primary-cyan) !important;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0.5em;
+}
+
+.navbar .dropdown-menu {
+  min-width: 200px;
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 /* Scrollbar */

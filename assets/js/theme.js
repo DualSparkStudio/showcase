@@ -261,7 +261,7 @@ var navbarInit = function navbarInit() {
     });
     var dropElements = document.querySelectorAll('.category-list');
     dropElements.forEach(function (item) {
-      item.innerHTML = ' ';
+      item.innerHTML = '';
     });
     navbar();
   });
@@ -269,28 +269,44 @@ var navbarInit = function navbarInit() {
   var navbar = function navbar() {
     var totalWidth = 0;
     var nav = document.querySelector(Selector.NAVBAR).clientWidth;
-    var dropdown = document.querySelector('.dropdown').clientWidth; // let navbarNav = document.querySelector('.navbar-nav').clientWidth;
+    var dropdownEl = document.querySelector('.dropdown');
+    if (!dropdownEl) return;
+    
+    var dropdown = dropdownEl.clientWidth;
+    var categoryList = document.querySelector('.category-list');
+    if (!categoryList) return;
 
     var navbarWidth = nav - dropdown;
-    var elements = document.querySelectorAll('.nav-item');
+    var elements = document.querySelectorAll('.nav-item:not(.dropdown)');
+    var hasDropdownItems = false;
+    
     elements.forEach(function (item) {
-      var itemWidth = item.clientWidth;
-      totalWidth = totalWidth + itemWidth;
+      if (item.offsetParent !== null) { // Only count visible items
+        var itemWidth = item.offsetWidth;
+        totalWidth = totalWidth + itemWidth;
 
-      if (totalWidth > navbarWidth) {
-        if (!item.classList.contains('dropdown')) {
+        if (totalWidth > navbarWidth) {
           item.style.display = 'none';
-          var link = item.firstChild;
-          var linkItem = link.cloneNode(true);
-          document.querySelector('.category-list').appendChild(linkItem);
+          var link = item.querySelector('.nav-link');
+          if (link) {
+            var linkItem = link.cloneNode(true);
+            linkItem.classList.remove('nav-link');
+            linkItem.classList.add('dropdown-item');
+            var li = document.createElement('li');
+            li.appendChild(linkItem);
+            categoryList.appendChild(li);
+            hasDropdownItems = true;
+          }
         }
       }
     });
-    var dropdownMenu = document.querySelectorAll('.dropdown-menu .nav-link');
-    dropdownMenu.forEach(function (item) {
-      item.classList.remove('nav-link');
-      item.classList.add('dropdown-item');
-    });
+    
+    // Show/hide dropdown based on whether it has items
+    if (hasDropdownItems && categoryList.children.length > 0) {
+      dropdownEl.style.display = '';
+    } else {
+      dropdownEl.style.display = 'none';
+    }
   };
 
   window.addEventListener('load', function (event) {
@@ -340,18 +356,37 @@ var isotopeFilter = function isotopeFilter() {
         columnWidth: '.item'
       }
     });
-    var filtersElem = document.querySelectorAll('[data-bs-nav]');
-    filtersElem.forEach(function (element) {
-      document.addEventListener('click', function (event) {
-        console.log(event.target.id);
-
-        if (event.target.id != 'navbarDropdown') {
-          var filterValue = event.target.getAttribute('data-filter');
+    document.addEventListener('click', function (event) {
+      // Check if clicked element or its parent has data-filter attribute
+      var target = event.target;
+      var filterElement = target.closest('[data-filter]');
+      
+      // Don't trigger filter when clicking dropdown toggle button
+      if (target.id === 'navbarDropdown' || target.closest('#navbarDropdown')) {
+        return;
+      }
+      
+      if (filterElement) {
+        var filterValue = filterElement.getAttribute('data-filter');
+        if (filterValue) {
+          // Update active states
+          var allLinks = document.querySelectorAll('.nav-link, .dropdown-item');
+          allLinks.forEach(function(link) {
+            link.classList.remove('active');
+          });
+          
+          // Set active state on clicked item
+          if (target.classList.contains('dropdown-item') || target.classList.contains('nav-link')) {
+            target.classList.add('active');
+          } else if (filterElement.classList.contains('dropdown-item') || filterElement.classList.contains('nav-link')) {
+            filterElement.classList.add('active');
+          }
+          
           iso.arrange({
             filter: filterValue
           });
         }
-      });
+      }
     });
   });
 };
