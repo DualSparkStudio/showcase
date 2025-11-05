@@ -267,52 +267,95 @@ var navbarInit = function navbarInit() {
   });
 
   var navbar = function navbar() {
-    var totalWidth = 0;
-    var nav = document.querySelector(Selector.NAVBAR).clientWidth;
     var dropdownEl = document.querySelector('.dropdown');
     if (!dropdownEl) return;
     
-    var dropdown = dropdownEl.clientWidth;
     var categoryList = document.querySelector('.category-list');
     if (!categoryList) return;
-
-    var navbarWidth = nav - dropdown;
-    var elements = document.querySelectorAll('.nav-item:not(.dropdown)');
-    var hasDropdownItems = false;
     
-    elements.forEach(function (item) {
-      if (item.offsetParent !== null) { // Only count visible items
-        var itemWidth = item.offsetWidth;
-        totalWidth = totalWidth + itemWidth;
-
-        if (totalWidth > navbarWidth) {
-          item.style.display = 'none';
-          var link = item.querySelector('.nav-link');
-          if (link) {
-            var linkItem = link.cloneNode(true);
-            linkItem.classList.remove('nav-link');
-            linkItem.classList.add('dropdown-item');
-            var li = document.createElement('li');
-            li.appendChild(linkItem);
-            categoryList.appendChild(li);
-            hasDropdownItems = true;
-          }
-        }
-      }
+    // First, reset everything - show all items and clear dropdown
+    var navElements = document.querySelectorAll('.nav-item:not(.dropdown)');
+    navElements.forEach(function (item) {
+      item.style.display = '';
     });
+    categoryList.innerHTML = '';
     
-    // Show/hide dropdown based on whether it has items
-    if (hasDropdownItems && categoryList.children.length > 0) {
-      dropdownEl.style.display = '';
-    } else {
-      dropdownEl.style.display = 'none';
-    }
+    // Hide dropdown initially
+    dropdownEl.classList.remove('has-items');
+    
+    // Wait for layout to be ready using requestAnimationFrame for better timing
+    requestAnimationFrame(function() {
+      setTimeout(function() {
+        var nav = document.querySelector(Selector.NAVBAR);
+        if (!nav) return;
+        
+        var navWidth = nav.clientWidth;
+        if (!navWidth) return;
+        
+        // Use reasonable estimate for "More" dropdown button width
+        // Typically 70-80px depending on font, but we'll use 75px as estimate
+        var dropdownWidth = 75;
+      
+        var navbarWidth = navWidth - dropdownWidth;
+        var elements = document.querySelectorAll('.nav-item:not(.dropdown)');
+        var totalWidth = 0;
+        var hasDropdownItems = false;
+        
+        // First pass: calculate total width of all items
+        elements.forEach(function (item) {
+          if (item.offsetParent !== null) {
+            totalWidth += item.offsetWidth;
+          }
+        });
+        
+        // If items don't fit, move them to dropdown
+        if (totalWidth > navbarWidth) {
+          var currentWidth = 0;
+          elements.forEach(function (item) {
+            if (item.offsetParent !== null) {
+              var itemWidth = item.offsetWidth;
+              currentWidth += itemWidth;
+
+              if (currentWidth > navbarWidth) {
+                item.style.display = 'none';
+                var link = item.querySelector('.nav-link');
+                if (link) {
+                  var linkItem = link.cloneNode(true);
+                  linkItem.classList.remove('nav-link');
+                  linkItem.classList.add('dropdown-item');
+                  var li = document.createElement('li');
+                  li.appendChild(linkItem);
+                  categoryList.appendChild(li);
+                  hasDropdownItems = true;
+                }
+              }
+            }
+          });
+        }
+        
+        // Show/hide dropdown based on whether it has items
+        if (hasDropdownItems && categoryList.children.length > 0) {
+          dropdownEl.classList.add('has-items');
+        } else {
+          dropdownEl.classList.remove('has-items');
+        }
+      }, 50);
+    });
   };
 
+  // Run immediately and on load
+  navbar();
+  
   window.addEventListener('load', function (event) {
-    navbar();
+    setTimeout(function() {
+      navbar();
+    }, 200);
   });
-  navbar(); // Toggle bg class on window resize
+  
+  // Also run after a short delay to ensure layout is ready
+  setTimeout(function() {
+    navbar();
+  }, 300);
 
   var backToToP = document.querySelector('.back-to-top');
   var navbarEl = document.querySelector('.navbar');

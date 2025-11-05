@@ -168,6 +168,15 @@ h1, h2, h3, h4, h5, h6 {
   flex-wrap: nowrap !important;
 }
 
+/* Hide dropdown by default, show when it has items */
+.navbar .dropdown {
+  display: none !important;
+}
+
+.navbar .dropdown.has-items {
+  display: block !important;
+}
+
 .glass-effect {
   background: rgba(10, 25, 47, 0.25) !important;
   backdrop-filter: blur(10px);
