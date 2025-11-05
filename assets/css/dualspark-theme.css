@@ -162,6 +162,36 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
   border-color: rgba(255, 255, 255, 0.05) !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  white-space: nowrap !important;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-dark-slate) var(--bg-dark-navy);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.navbar::-webkit-scrollbar {
+  height: 8px;
+}
+
+.navbar::-webkit-scrollbar-track {
+  background: var(--bg-dark-navy);
+  border-radius: 4px;
+}
+
+.navbar::-webkit-scrollbar-thumb {
+  background: var(--bg-dark-slate);
+  border-radius: 4px;
+}
+
+.navbar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-cyan);
+}
+
+.navbar .navbar-nav {
+  flex-wrap: nowrap !important;
+  white-space: nowrap !important;
 }
 
 .glass-effect {
